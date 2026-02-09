@@ -1,1 +1,38 @@
-<p>forecast works!</p>
+@if (weatherService.forecast().length > 0) {
+    <div class="forecast">
+      <h3>5-Day Forecast</h3>
+      <div class="forecast-grid">
+        @for (day of weatherService.forecast(); track day.date) {
+          <div class="forecast-card">
+            <div class="forecast-day">
+              {{ day.date | date:'EEE' }}
+            </div>
+            <img 
+              [src]="weatherService.getWeatherIconUrl(day.icon)"
+              [alt]="day.description"
+              class="forecast-icon"
+            />
+            <div class="forecast-temps">
+              <span class="temp-high">
+                {{ getDisplayTemp(day.temp_max) }}°
+              </span>
+              <span class="temp-low">
+                {{ getDisplayTemp(day.temp_min) }}°
+              </span>
+            </div>
+            <div class="forecast-description">
+              {{ day.description }}
+            </div>
+            @if (day.precipitation > 0) {
+              <div class="precipitation">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+                </svg>
+                {{ day.precipitation }}%
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  }

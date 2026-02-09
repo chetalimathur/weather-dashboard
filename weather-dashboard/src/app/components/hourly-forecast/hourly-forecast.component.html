@@ -1,1 +1,20 @@
-<p>hourly-forecast works!</p>
+@if (weatherService.hourlyForecast().length > 0) {
+    <div class="hourly-forecast">
+      <h3>Hourly Forecast</h3>
+      <div class="hourly-scroll">
+        @for (hour of weatherService.hourlyForecast(); track hour.time) {
+          <div class="hourly-item">
+            <span class="hour-time">{{ hour.time | date:'HH:mm' }}</span>
+            <img 
+              [src]="weatherService.getWeatherIconUrl(hour.icon)"
+              [alt]="hour.description"
+              class="hour-icon"
+            />
+            <span class="hour-temp">
+              {{ getDisplayTemp(hour.temp) }}{{ themeService.getTemperatureSymbol() }}
+            </span>
+          </div>
+        }
+      </div>
+    </div>
+  }
